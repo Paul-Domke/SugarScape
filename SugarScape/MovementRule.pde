@@ -21,7 +21,7 @@ class MovementRule{
         }
       }
     }
-    println("square choosen to move to x, y, sugarlevel, maxsugar: ", maxNode.getX(), maxNode.getY(), maxNode.getSugar(), maxNode.getMaxSugar());
+    //println("square choosen to move to x, y, sugarlevel, maxsugar: ", maxNode.getX(), maxNode.getY(), maxNode.getSugar(), maxNode.getMaxSugar());
     return maxNode;
   }
 }

@@ -121,12 +121,12 @@ class SugarGrid{
         if(euclidianDistance(grid[x][y], current) <= radius){
           if(x == current.getX() || y == current.getY()){
             finalList.add(current);
-            println("Pos of squares in generate vision: " + current.getX(), current.getY());
+            //println("Pos of squares in generate vision: " + current.getX(), current.getY());
           }
         }
       }
     }
-    println("Size of vison: " + finalList.size());
+    //println("Size of vison: " + finalList.size());
     return finalList;
   }
   
@@ -134,11 +134,12 @@ class SugarGrid{
   
   public void update(){
     //the error is it updates the same agent again in the dest!!!!!!!!!!!!!!
+    Agent lastAgent = null;
     for(int gridX = 0; gridX < w; gridX++){
       for(int gridY = 0; gridY < h; gridY++){
         Square current = grid[gridX][gridY];
         g.growBack(current);
-        if(current.getAgent() != null){
+        if(current.getAgent() != null && lastAgent != current.getAgent()){
           Agent currentAgent = current.getAgent();
           LinkedList<Square> sight = generateVision(current.getX(), current.getY(), currentAgent.getVision());
           MovementRule move = currentAgent.getMovementRule();
@@ -150,6 +151,7 @@ class SugarGrid{
           currentAgent.step();
           if(currentAgent.isAlive()){
             currentAgent.eat(dest);
+            lastAgent = currentAgent;
           }
           else{
             dest.setAgent(null);
