@@ -42,7 +42,7 @@ class SquareTester {
 
 class GrowBackRuleTester{
   void test(){
-    GrowBackRule growB = new GrowBackRule(5);
+    GrowBackRule growB = new GrowBackRule(1);
     Square testSquare = new Square(5,10,0,0);
     growB.growBack(testSquare);
     assert(testSquare.getSugar() == 6);
@@ -88,13 +88,18 @@ class SugarGridTester {
 
 class MovementRuleTest{
   void test(){
-    SugarGrid g = new SugarGrid(10,10,10,new GrowBackRule(1));
+    SugarGrid g = new SugarGrid( 10, 10, 10,new GrowBackRule(0));
     LinkedList<Square> vision = new LinkedList<Square>();
-    vision.add(new Square(5,5,0,0));
-    vision.add(new Square(10,10,1,0));
+    
+    vision.add(new Square(1,10,3,3));
+    vision.add(new Square(2,10,3,4));
+    vision.add(new Square(3,10,3,2));
+    vision.add(new Square(4,10,4,3));
+    Square winner = new Square(5,10,2,3);
+    vision.add(winner);
     
     MovementRule moveM = new MovementRule();
-    assert(moveM.move(vision, g, new Square(0,0,5,5)) == new Square(10,10,1,0));
+    assert(moveM.move(vision, g, new Square(0,0,5,5)) == winner);
   }
 }
 
