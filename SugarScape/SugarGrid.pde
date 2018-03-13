@@ -134,12 +134,12 @@ class SugarGrid{
   
   public void update(){
     //the error is it updates the same agent again in the dest!!!!!!!!!!!!!!
-    Agent lastAgent = null;
+    ArrayList<Agent> lastAgent = new ArrayList<Agent>();
     for(int gridX = 0; gridX < w; gridX++){
       for(int gridY = 0; gridY < h; gridY++){
         Square current = grid[gridX][gridY];
         g.growBack(current);
-        if(current.getAgent() != null && lastAgent != current.getAgent()){
+        if(current.getAgent() != null && lastAgent.contains(current.getAgent()) == false){
           Agent currentAgent = current.getAgent();
           LinkedList<Square> sight = generateVision(current.getX(), current.getY(), currentAgent.getVision());
           MovementRule move = currentAgent.getMovementRule();
@@ -151,7 +151,7 @@ class SugarGrid{
           currentAgent.step();
           if(currentAgent.isAlive()){
             currentAgent.eat(dest);
-            lastAgent = currentAgent;
+            lastAgent.add(currentAgent);
           }
           else{
             dest.setAgent(null);

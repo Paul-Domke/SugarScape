@@ -17,11 +17,16 @@ void setup(){
 
   size(1000,800);
   myGrid = new SugarGrid(50,40,20, new GrowBackRule(0));
-  myGrid.addSugarBlob(10,10,2,8);
+  myGrid.addSugarBlob(0,0,2,8);
+  myGrid.addSugarBlob(25,20,2,8);
   Agent ag = new Agent(1,1,10, new MovementRule());
-  myGrid.placeAgent(ag,5,5);
+  Agent age = new Agent(1,1,10, new MovementRule());
+  Agent agen = new Agent(1,1000,10, new MovementRule());
+  myGrid.placeAgent(ag,0,0);
+  myGrid.placeAgent(age,7,9);
+  myGrid.placeAgent(agen,9,3);
   myGrid.display();
-  frameRate(2);
+  frameRate(100);
 
 }
 
