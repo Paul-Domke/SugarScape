@@ -121,17 +121,19 @@ class SugarGrid{
         if(euclidianDistance(grid[x][y], current) <= radius){
           if(x == current.getX() || y == current.getY()){
             finalList.add(current);
-            println(current.getX(), current.getY());
+            println("Pos of squares in generate vision: " + current.getX(), current.getY());
           }
         }
       }
     }
+    println("Size of vison: " + finalList.size());
     return finalList;
   }
   
   
   
   public void update(){
+    //the error is it updates the same agent again in the dest!!!!!!!!!!!!!!
     for(int gridX = 0; gridX < w; gridX++){
       for(int gridY = 0; gridY < h; gridY++){
         Square current = grid[gridX][gridY];

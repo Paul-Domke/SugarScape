@@ -16,14 +16,12 @@ class MovementRule{
         maxNode = myNode;        
       }
       if(myNode.getSugar() == max){
-        if(maxNode == null || myNode == null){
-          println("Oh no!");
-        }
         if(g.euclidianDistance(middle, maxNode) > g.euclidianDistance(middle, myNode)){
           maxNode = myNode;
         }
       }
     }
+    println("square choosen to move to x, y, sugarlevel, maxsugar: ", maxNode.getX(), maxNode.getY(), maxNode.getSugar(), maxNode.getMaxSugar());
     return maxNode;
   }
 }
