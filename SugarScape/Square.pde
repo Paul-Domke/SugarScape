@@ -6,12 +6,22 @@ class Square{
   private int x;
   private int y;
   private Agent a;
+  private int pollution;
 
   public Square(int sugarLevel, int maxSugarLevel, int x, int y){
     this.sugarLevel = sugarLevel;
     this.maxSugarLevel = maxSugarLevel;
     this.x = x;
     this.y = y;
+    this.pollution = 0;
+  }
+  
+  public int getPollution(){
+    return pollution;
+  }
+  
+  public void setPollution(int level){
+    pollution = level;
   }
   
   public int getX(){

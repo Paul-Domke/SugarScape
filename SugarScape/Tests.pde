@@ -31,7 +31,7 @@ class SquareTester {
     }
 
     assert(s.getAgent() == null); 
-    Agent a = new Agent(0,0,0, new MovementRule());
+    Agent a = new Agent(0,0,0, new SugarSeekingMovementRule());
     s.setAgent(a);
     assert(s.getAgent() == a);
     s.setAgent(null);
@@ -69,7 +69,7 @@ class SugarGridTester {
       }
     }
     
-    Agent testAgent = new Agent(10,10,10, new MovementRule());
+    Agent testAgent = new Agent(10,10,10, new SugarSeekingMovementRule());
     g.placeAgent(testAgent, 0, 0);
     assert(g.getAgentAt(0,0) == testAgent);
     
@@ -98,7 +98,7 @@ class MovementRuleTest{
     Square winner = new Square(5,10,2,3);
     vision.add(winner);
     
-    MovementRule moveM = new MovementRule();
+    MovementRule moveM = new SugarSeekingMovementRule();
     assert(moveM.move(vision, g, new Square(0,0,5,5)) == winner);
   }
 }
@@ -106,7 +106,7 @@ class MovementRuleTest{
 
 class AgentTester {
   void test(){
-    MovementRule moveM = new MovementRule();
+    MovementRule moveM = new SugarSeekingMovementRule();
     Agent a = new Agent(5 , 5, 100, moveM);
     
     assert(a.getMetabolism() == 5);

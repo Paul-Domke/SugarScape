@@ -5,7 +5,7 @@ class Agent{
   private int vision;
   private int initialSugar;
   private MovementRule m;
-  
+  private int age;
   private int sugarLevel;
   
   public Agent(int metabolism, int vision, int initialSugar, MovementRule m){
@@ -14,6 +14,11 @@ class Agent{
     this.initialSugar = initialSugar;
     this.m = m;
     this.sugarLevel += this.initialSugar;
+    this.age = 0;
+  }
+  
+  public int getAge(){
+    return age;
   }
   
   public int getMetabolism(){
@@ -32,6 +37,13 @@ class Agent{
     return m;
   }
   
+  public void setAge(int howOld){
+    if(howOld < 0){
+      assert(false);
+    }
+    age = howOld;
+  }
+  
   public void move(Square source, Square destination){
     if(source == destination || destination.getAgent() == null){
       source.setAgent(null);
@@ -42,6 +54,7 @@ class Agent{
     }
   }
   public void step(){
+    age++;
     sugarLevel -= metabolism;
     if(sugarLevel < 0){
       sugarLevel = 0;

@@ -4,16 +4,18 @@ class SugarGrid{
   private int w;
   private int h;
   private int sideLength;
-  private GrowBackRule g;
+  private GrowthRule g;
   private Square[][] grid;
+  private ArrayList<Agent> listOfAgents;
+
   
   //Constructor checks out
-  public SugarGrid(int w, int h, int sideLength, GrowBackRule g){
+  public SugarGrid(int w, int h, int sideLength, GrowthRule g){
     this.w = w;
     this.h = h;
     this.sideLength = sideLength;
     this.g = g;
-    
+    this.listOfAgents = new ArrayList<Agent>();
     grid = new Square[w][h];
     for (int wid = 0; wid < w; wid++) {
       for (int hei = 0; hei < h; hei++) {
@@ -57,6 +59,7 @@ class SugarGrid{
     //Square has to be empty no matter what
     if(grid[x][y].getAgent() == null){
       grid[x][y].setAgent(a);
+      listOfAgents.add(a);
     }
     else{
       assert(false);
@@ -64,7 +67,7 @@ class SugarGrid{
   }
   
   public double euclidianDistance(Square s1, Square s2){
-    //Really hope this works...
+
     int s1X = s1.getX();
     int s1Y = s1.getY();
     int s2X = s2.getX();
@@ -133,7 +136,9 @@ class SugarGrid{
   
   
   public void update(){
-    //the error is it updates the same agent again in the dest!!!!!!!!!!!!!!
+    //
+    
+    //
     ArrayList<Agent> lastAgent = new ArrayList<Agent>();
     for(int gridX = 0; gridX < w; gridX++){
       for(int gridY = 0; gridY < h; gridY++){
@@ -142,11 +147,19 @@ class SugarGrid{
         if(current.getAgent() != null && lastAgent.contains(current.getAgent()) == false){
           Agent currentAgent = current.getAgent();
           LinkedList<Square> sight = generateVision(current.getX(), current.getY(), currentAgent.getVision());
+          Square dest = null;
           MovementRule move = currentAgent.getMovementRule();
-          Square dest = move.move(sight, this, grid[(w - 1)/2][(h - 1)/2]);
-          //If dest is empty you can move, if dest is current you can move
-          if(dest.getAgent() == null){
-            currentAgent.move(current, dest);
+          while(sight.size() != 0){
+            dest = move.move(sight, this, grid[(w - 1)/2][(h - 1)/2]);
+            //If dest is empty you can move, if dest is current you can move
+            if(dest.getAgent() == null){
+              currentAgent.move(current, dest);
+              break;
+            }
+            else{
+              sight.remove(dest);
+            }
+            
           }
           currentAgent.step();
           if(currentAgent.isAlive()){
@@ -168,5 +181,24 @@ class SugarGrid{
         sq.display(sideLength);
       }
     }
+  }
+  
+  public void addAgentAtRandom(Agent a){
+    ArrayList<Square> nullSquares = new ArrayList<Square>();
+    for(int gridX = 0; gridX < w; gridX++){
+      for(int gridY = 0; gridY < h; gridY++){
+        Square current = grid[gridX][gridY];
+        if(current.getAgent() == null){
+          nullSquares.add(current);
+        }
+      }
+    }
+    int rand = (int)random(nullSquares.size());
+    Square randSquare = nullSquares.get(rand);
+    placeAgent(a, randSquare.getX(), randSquare.getY());
+  }
+  
+  public ArrayList<Agent> getAgents(){
+    return listOfAgents;
   }
 }

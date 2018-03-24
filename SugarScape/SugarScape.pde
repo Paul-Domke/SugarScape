@@ -1,37 +1,37 @@
 SugarGrid myGrid;
+Graph g;
+Sorter s;
+AgentFactory fac;
+ArrayList<Agent> d;
 void setup(){
-  SquareTester s = new SquareTester();
-  s.test();
-  
-  GrowBackRuleTester gr = new GrowBackRuleTester();
-  gr.test();
-  
-  SugarGridTester g = new SugarGridTester();
-  g.test();
-  
-  MovementRuleTest m = new MovementRuleTest();
-  m.test();
-  
-  AgentTester a = new AgentTester();
-  a.test();
 
   size(1000,800);
-  myGrid = new SugarGrid(50,40,20, new GrowBackRule(0));
-  myGrid.addSugarBlob(0,0,2,8);
-  myGrid.addSugarBlob(25,20,2,8);
-  Agent ag = new Agent(1,1,10, new MovementRule());
-  Agent age = new Agent(1,1,10, new MovementRule());
-  Agent agen = new Agent(1,1000,10, new MovementRule());
-  myGrid.placeAgent(ag,0,0);
-  myGrid.placeAgent(age,7,9);
-  myGrid.placeAgent(agen,9,3);
+  s = new InsertionSorter();
+  fac = new AgentFactory(1, 10, 1, 4, 5, 50, new SugarSeekingMovementRule());
+  g = new NumberOfAgentsGraph(100,100, 200,200, "xlab", "ylab");
+  myGrid = new SugarGrid(50,40,20, new SeasonalGrowbackRule(3, 0, 100, 20, 50*40));
+  d = new ArrayList<Agent>();
+  myGrid.addSugarBlob(25,20,3,8);
+  myGrid.addSugarBlob(0,0,2,4);
+  for(int i = 0; i < 10; i++){
+    myGrid.addAgentAtRandom(fac.makeAgent());
+    d.add(fac.makeAgent());
+  }
+  for(int i = 0; i < d.size(); i++){
+    print(d.get(i).getSugarLevel() + ", ");
+  }
+  s.sort(d);
+  println();
+  for(int i = 0; i < d.size(); i++){
+    print(d.get(i).getSugarLevel() + ", ");
+  }
   myGrid.display();
-  frameRate(100);
-
+  frameRate(10);
 }
 
 void draw(){
   myGrid.update();
   background(255);
   myGrid.display();
+  g.update(myGrid);
 }
