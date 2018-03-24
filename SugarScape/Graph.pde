@@ -43,17 +43,17 @@ abstract class LineGraph extends Graph{
   
   public abstract int nextPoint(SugarGrid g);
   
-  @Override
   public void update(SugarGrid g){
     if(numberOfUpdates == 0){
+      super.update(g);
       numberOfUpdates++;
     }
     else{
-      fill(255);
-      stroke(255);
-      rect(numberOfUpdates, nextPoint(g), 1, 1);
+      fill(0);
+      stroke(0);
+      rect(numberOfUpdates + x, nextPoint(g) + y + howTall - 10, 1, 1);
       numberOfUpdates++;
-      if(numberOfUpdates > howWide){
+      if(numberOfUpdates >= howWide){
         numberOfUpdates = 0;
       }
     }
@@ -67,7 +67,29 @@ class NumberOfAgentsGraph extends LineGraph{
   }
   
   public int nextPoint(SugarGrid g){
-    return g.getAgents().size()/10;
+    return -g.getAgents().size()/10;
+  }
+}
+
+class VisionGraph extends LineGraph{
+  
+  public VisionGraph(int x, int y, int howWide, int howTall, String xlab, String ylab){
+    super(x, y, howWide, howTall, xlab, ylab);
+  }
+  
+  public int nextPoint(SugarGrid g){
+  
+    ArrayList<Agent> Agents = g.getAgents();
+    int numberOfAgents = Agents.size();
+    int totalVision = 0;
+    
+    for(int i = 0; i < numberOfAgents; i++){
+      Agent current = Agents.get(i);
+      totalVision += current.getVision();
+    }
+    println(totalVision, numberOfAgents);
+    println(totalVision/numberOfAgents);
+    return -totalVision/numberOfAgents;
   }
 }
 
