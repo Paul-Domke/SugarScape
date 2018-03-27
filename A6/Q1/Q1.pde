@@ -1,5 +1,4 @@
 SugarGrid myGrid;
-AgentFactory fac;
 Graph g;
 //ArrayList<Agent> d;
 void setup(){
