@@ -1,0 +1,4 @@
+﻿A7
+The goal of this assignment is to gain some familiarity working with more complex linked data structures, and basic algorithms for traversing them.
+A motivating application for this is the construction of a social network for our Sugarscape simulation. It is natural to model a social network as a linked data structure: each agent will have some friends they are connected to. However, unlike in a linked list, in this network each agent will be connected to more than one neighbour. This kind of structure is called a graph, or sometimes a combinatorial graph, to avoid confusing it with a bar graph or line graph. There are several ways to represent a graph, and we will use of the adjacency list representation. It may suffer from slow lookups in this assignment, but we will work on that issue in future assignments.
+
