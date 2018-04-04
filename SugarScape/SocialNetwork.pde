@@ -1,10 +1,27 @@
 class SocialNetwork{
-  
+  //using an adjacency list representation
+  private LinkedList<SocialNetworkNode>[] adj;
   
   public SocialNetwork(SugarGrid g){
     //Initializes a new social network such that for every pair of Agents (x,y) on grid g, if x can see y (i.e. y is on a square that is in the vision of x), 
     //then the SocialNetworkNode for x is connected to the SocialNetworkNode for y in this new social network. Note that x might be able to see y even if y cannot see x.
-    
+    adj = new LinkedList[g.getWidth() * g.getHeight()];
+    for(int x = 0; x < g.getWidth(); x++){
+      for(int y = 0; y < g.getHeight(); y++){
+        Agent currentAgent = g.getAgentAt(x, y);
+        int index = x + ( y * 10 );
+        if(currentAgent != null){
+          LinkedList<Square> vision = g.generateVision(x, y, currentAgent.getVision());
+          for(Square s : vision){
+            Agent agentInVision = s.getAgent();
+            if(agentInVision != null){
+              SocialNetworkNode currentSNN = new SocialNetworkNode(agentInVision);
+              adj[index].add(currentSNN);
+            }
+          }
+        }
+      }
+    }
   }
   
   public boolean adjacent(SocialNetworkNode x, SocialNetworkNode y){
