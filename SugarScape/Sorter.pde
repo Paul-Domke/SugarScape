@@ -19,7 +19,6 @@ class BubbleSorter extends Sorter{
         if(lessThan(a,b)){
           al.set(j, a);
           al.set(j + 1, b);
-          println();
         }
       }
     }
