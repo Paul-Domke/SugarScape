@@ -9,7 +9,7 @@ class SocialNetwork{
     for(int x = 0; x < g.getWidth(); x++){
       for(int y = 0; y < g.getHeight(); y++){
         Agent currentAgent = g.getAgentAt(x, y);
-        int index = x + ( y * 10 );
+        int index = x + ( y * g.getWidth());
         if(currentAgent != null){
           LinkedList<Square> vision = g.generateVision(x, y, currentAgent.getVision());
           for(Square s : vision){
@@ -26,16 +26,42 @@ class SocialNetwork{
   
   public boolean adjacent(SocialNetworkNode x, SocialNetworkNode y){
     //Returns true if agent x is adjacent to agent y in this SocialNetwork. If either x or y is not present in the social network, should return null.
+    Agent lastAgent = null;
+    for(int i = 0; i < adj.length; i++){
+      LinkedList<SocialNetworkNode> socialNetwork = adj[i];
+      if(socialNetwork.peek().getAgent() == x.getAgent()){
+        
+      }
+    }
     return false;
   }
   
   public LinkedList<SocialNetworkNode> seenBy(SocialNetworkNode x){
     //Returns a list (either ArrayList or LinkedList) containing all the nodes that x is adjacent to. Returns null if x is not in the social network.
-    return null;
+    LinkedList<SocialNetworkNode> seenBy = new LinkedList<SocialNetworkNode>();
+    for(int i = 0; i < adj.length; i++){
+      LinkedList<SocialNetworkNode> socialNetwork = adj[i];
+      for(int j = 0; j < socialNetwork.size(); j++){
+        SocialNetworkNode currentNode = socialNetwork.get(j);
+        if(currentNode == x){
+          seenBy.add(socialNetwork.peek());
+        }
+      }
+    }
+    if(seenBy.size() == 0){
+      return null;
+    }
+    return seenBy;
   }
   
   public LinkedList<SocialNetworkNode> sees(SocialNetworkNode y){
     //Returns a list (either ArrayList or LinkedList) containing all the nodes that are adjacent to y. Returns null if y is not in the social network.
+    for(int i = 0; i < adj.length; i++){
+      LinkedList<SocialNetworkNode> socialNetwork = adj[i];
+      if(socialNetwork.peek() == y){
+        return socialNetwork;
+      }
+    }
     return null;
   }
   
