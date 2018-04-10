@@ -15,9 +15,8 @@ public interface Dictionary<K,V>{
     public V remove(K key);
     //Returns whatever V object is stored in the dictionary under key 
     //(determined using compareTo() ==0) 
-    //and deletes that object from the dictionary (subsequent calls to get(key)
-    //should return null). If key is not in the dictionary, 
-    //this method should throw an AssertionError or NullPointerException.
+    //and deletes that object from the dictionary (subsequent calls to get(key)should return null). 
+    //If key is not in the dictionary, this method should throw an AssertionError or NullPointerException.
     
     public int size();
     //Returns the number of elements stored in the dictionary.

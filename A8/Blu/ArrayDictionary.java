@@ -1,35 +1,51 @@
 import java.util.ArrayList;
 
 public class ArrayDictionary<K extends Comparable<K>, V> implements Dictionary<K,V>{
-    
-    ArrayList<Pair> dict;
+    ArrayList<Pair<K, V>> dict;
     
     // Must run at constant time (O(1) operations)
     public ArrayDictionary(){
-        dict = new ArrayList<Pair>();
+        dict = new ArrayList<Pair<K, V>>();
     }
     
     public void clear(){
-        
+        dict = new ArrayList<Pair<K, V>>();
     }
     
     public int size(){
         return dict.size();
     }
     
-    // must run in O(size()) time (i.e. a number of operations 
+    // must run in O(size()) time
     public V remove(K key){
+        for(int i = 0; i < dict.size(); i++){
+            K currentKey = dict.get(i).getKey();
+            V currentValue = dict.get(i).getValue();
+            if(currentKey.compareTo(key) == 0){
+                dict.remove(i);
+                return currentValue;
+            }
+        }
+        assert(1 == 0);
         return null;
     }
     
     public V get(K key){
+        for(int i = 0; i < dict.size(); i++){
+            K currentKey = dict.get(i).getKey();
+            V currentValue = dict.get(i).getValue();
+            if(currentKey.compareTo(key) == 0){
+                return currentValue;
+            }
+        }
         return null;
     }
     
     // methods must run in O(log2(size())) time.
     public boolean contains(K key){
         for(int i = 0; i < dict.size(); i++){
-            if(dict.get(i) == key){
+            K currentKey = dict.get(i).getKey();
+            if(currentKey.compareTo(key) == 0){
                 return true;
             }
         }
@@ -37,7 +53,18 @@ public class ArrayDictionary<K extends Comparable<K>, V> implements Dictionary<K
     }
     
     public void put(K key, V value){
-        
+        for(int i = 0; i < dict.size(); i++){
+            Pair<K, V> currentPair = dict.get(i);
+            K currentKey = currentPair.getKey();
+            V currentValue = currentPair.getValue();
+            if(currentKey.compareTo(key) == 0){
+                dict.set(i, currentPair);
+                return;
+            }
+            while(){
+                
+            }
+        }
     }
     
     //Also, include the following method:
