@@ -66,3 +66,15 @@ class PollutionMovementRule implements MovementRule{
    return maxNode;
   }
 }
+
+class CombatMovementRule extends SugarSeekingMovementRule{
+  int alpha;
+  
+  public CombatMovementRule(int alpha){
+    this.alpha = alpha;
+  }
+  
+  public Square move(LinkedList<Square> neighbourhood, SugarGrid g, Square middle){
+    
+  }
+}

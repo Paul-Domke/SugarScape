@@ -26,11 +26,15 @@ class SocialNetwork{
   
   public boolean adjacent(SocialNetworkNode x, SocialNetworkNode y){
     //Returns true if agent x is adjacent to agent y in this SocialNetwork. If either x or y is not present in the social network, should return null.
-    Agent lastAgent = null;
     for(int i = 0; i < adj.length; i++){
       LinkedList<SocialNetworkNode> socialNetwork = adj[i];
-      if(socialNetwork.peek().getAgent() == x.getAgent()){
-        
+      if(socialNetwork.peek() == x){
+        for(int j = 0; j < socialNetwork.size(); j++){
+          SocialNetworkNode currentNode = socialNetwork.get(j);
+          if(currentNode == y){
+            return true;
+          }
+        }
       }
     }
     return false;
@@ -96,7 +100,10 @@ class SocialNetwork{
   public boolean pathExists(Agent x, Agent y){
     //Returns true if there exists any path through the social network that connects x to y. A path should start with node x,
     //proceed through any node x can see, and then any node that agent can see, and so on, until it reaches node y.
-    
+    for(int i = 0; i < adj.length; i++){
+      LinkedList<SocialNetworkNode> socialNetwork = adj[i];
+      
+    }
     return false;
   }
   
