@@ -4,8 +4,6 @@ class ReplacementRule{
   int minAge;
   int maxAge;
   AgentFactory fac;
-  ArrayList<Agent> listOfAgents;
-  ArrayList<Integer> agentsAge;
   HashMap<Agent, Integer> listOfAgentAge;
   
   public ReplacementRule(int minAge, int maxAge, AgentFactory fac){

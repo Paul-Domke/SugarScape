@@ -24,6 +24,10 @@ class SugarGrid{
     }
   }
   
+  public void killAgent(Agent a){
+    
+  }
+  
   //Pretty sure all accessor methods work
   public int getWidth(){
     return w;

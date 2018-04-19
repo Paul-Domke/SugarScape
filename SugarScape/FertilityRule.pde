@@ -3,6 +3,9 @@ import java.util.Map;
 class FertilityRule{
   Map<Character, Integer[]> childbearingOnset;
   Map<Character,Integer[]> climactericOnset;
+  HashMap<Agent, Integer> initalSugar;
+  HashMap<Agent, Integer> agentC;
+  HashMap<Agent, Integer> agentO;
   
   public FertilityRule(Map<Character, Integer[]> childbearingOnset, Map<Character,Integer[]> climactericOnset){
     this.childbearingOnset = childbearingOnset;
@@ -11,10 +14,24 @@ class FertilityRule{
   
   public boolean isFertile(Agent a){
     if(a == null){
-      //Remove agent from stuff
+      initalSugar.remove(a);
+      agentC.remove(a);
+      agentO.remove(a);
       return false;
     }
-    return true;
+    if(!initalSugar.containsKey(a)){
+      float randC = random(0, childbearingOnset.get(a.getSex()).length);
+      Integer c = (int)randC;
+      agentC.put(a, c);
+      float randO = random(0, climactericOnset.get(a.getSex()).length);
+      Integer o = (int)randO;
+      agentC.put(a, o);
+      initalSugar.put(a, a.getSugarLevel());
+    }
+    if(agentC.get(a) <= a.getAge() && a.getAge() < agentO.get(a) && a.getSugarLevel() > initalSugar.get(a)){
+      return true;
+    }
+    return false;
   }
   
   public boolean canBreed(Agent a, Agent b, LinkedList<Square> local){
@@ -58,8 +75,8 @@ class FertilityRule{
       Agent kid = new Agent(metabolism, vision, 0, m);
       
       kid.nurture(a,b);
-      a.gift(kid, intitialSugar/2);
-      b.gift(kid, intitialSugar/2);
+      a.gift(kid, initalSugar.get(a)/2);
+      b.gift(kid, initalSugar.get(b)/2);
       
       for(Square sq : aLocal){
         if(sq.getAgent() == null){
@@ -74,6 +91,5 @@ class FertilityRule{
       emptySquares.get((int)random(0, emptySquares.size())).setAgent(kid);
       return kid;
     }
-    return null;
   } 
 }
