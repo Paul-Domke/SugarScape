@@ -1,9 +1,12 @@
+import java.util.List;
+
 class ReplacementRule{
   int minAge;
   int maxAge;
   AgentFactory fac;
   ArrayList<Agent> listOfAgents;
   ArrayList<Integer> agentsAge;
+  HashMap<Agent, Integer> listOfAgentAge;
   
   public ReplacementRule(int minAge, int maxAge, AgentFactory fac){
     this.minAge = minAge;
@@ -16,14 +19,12 @@ class ReplacementRule{
       a.setAge(maxAge + 1);
       return true;
     }
-    if(listOfAgents.contains(a) == false){
+    if(listOfAgentAge.containsKey(a) == false){
       int randAge = (int)random(minAge, maxAge);
-      listOfAgents.add(a);
-      agentsAge.add(randAge);
+      listOfAgentAge.put(a, randAge);
     }
     else{
-      int index = listOfAgents.indexOf(a);
-      if(agentsAge.get(index) < a.getAge()){
+      if(listOfAgentAge.get(a) < a.getAge()){
         a.setAge(maxAge + 1);
         return true;
       }
@@ -31,7 +32,7 @@ class ReplacementRule{
     return false;
   }
   
-  //public Agent replace(Agent a, List<Agent> others){
-    
-  //}
+  public Agent replace(Agent a, List<Agent> others){
+    return fac.makeAgent();
+  }
 }
