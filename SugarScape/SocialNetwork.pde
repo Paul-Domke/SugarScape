@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 class SocialNetwork{
   //using an adjacency list representation
   private LinkedList<SocialNetworkNode>[] adj;
@@ -10,6 +12,7 @@ class SocialNetwork{
       for(int y = 0; y < g.getHeight(); y++){
         Agent currentAgent = g.getAgentAt(x, y);
         int index = x + ( y * g.getWidth());
+        adj[index] = new LinkedList<SocialNetworkNode>();
         if(currentAgent != null){
           LinkedList<Square> vision = g.generateVision(x, y, currentAgent.getVision());
           for(Square s : vision){
@@ -26,11 +29,15 @@ class SocialNetwork{
   
   public boolean adjacent(SocialNetworkNode x, SocialNetworkNode y){
     //Returns true if agent x is adjacent to agent y in this SocialNetwork. If either x or y is not present in the social network, should return null.
-    Agent lastAgent = null;
     for(int i = 0; i < adj.length; i++){
       LinkedList<SocialNetworkNode> socialNetwork = adj[i];
       if(socialNetwork.peek().getAgent() == x.getAgent()){
-        
+        for(int j = 0; j < socialNetwork.size(); j++){
+          SocialNetworkNode currentNode = socialNetwork.get(j);
+          if(y == currentNode){
+            return true;
+          }
+        }
       }
     }
     return false;
@@ -95,10 +102,66 @@ class SocialNetwork{
   
   public boolean pathExists(Agent x, Agent y){
     //Returns true if there exists any path through the social network that connects x to y. A path should start with node x,
-    //proceed through any node x can see, and then any node that agent can see, and so on, until it reaches node y.
-    
+    //proceed through any node x can see, and then any node that agent can see, and so on, until it reaches node y. 
+    for(int i = 0; i < adj.length; i++){
+      LinkedList<SocialNetworkNode> q = new LinkedList<SocialNetworkNode>();
+      LinkedList<SocialNetworkNode> socialNetwork = adj[i];
+      if(socialNetwork.peek() != null && socialNetwork.peek().getAgent() == x){
+        SocialNetworkNode currentSNN = socialNetwork.peek();
+        currentSNN.paint();
+        q.add(currentSNN);
+        
+        Iterator<SocialNetworkNode> it;
+        while(q.size() != 0){
+          currentSNN = q.poll();
+          
+          SocialNetworkNode n;
+          it = adj[i].listIterator();
+          
+          while(it.hasNext()){
+            n = it.next();
+            if(n.getAgent()==y){
+              resetPaint();
+              return true;
+            }
+            if(!n.painted()){
+              n.paint();
+              q.add(n);
+            }
+          }
+        }
+      }
+    }
     return false;
   }
+/*
+    if(x == y){
+      return true;
+    }
+    for(int i = 0; i < adj.length; i++){  //Goes through all Social Networks
+      //println(i);
+      LinkedList<SocialNetworkNode> socialNetwork = adj[i];  //Gets the social network to work with
+      if(socialNetwork.peek() != null){
+        SocialNetworkNode firstSNN = socialNetwork.peek();
+        println(firstSNN.getAgent().getSugarLevel());
+        println(x.getSugarLevel());
+        firstSNN.paint();  //paints it visited
+        Agent firstAgent = firstSNN.getAgent();  //firstSNN agent
+        if(x == firstAgent){  //if this is the one we are looking for
+          println("Here");
+          for(int j = 1; j < socialNetwork.size(); j++){
+            println(j);
+            SocialNetworkNode nextSNN = socialNetwork.get(j);
+            if(nextSNN.painted()){
+              return false;
+            }
+            pathExists(nextSNN.getAgent(), y);
+          }
+        }
+      }
+    }
+    return false;
+  } */
   
   public LinkedList<Agent> bacon(Agent x, Agent y){
     //Returns the shortest path through the social network from node x to node y. If more than one path is the shortest, 

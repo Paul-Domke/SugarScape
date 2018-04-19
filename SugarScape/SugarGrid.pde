@@ -136,9 +136,6 @@ class SugarGrid{
   
   
   public void update(){
-    //
-    
-    //
     ArrayList<Agent> lastAgent = new ArrayList<Agent>();
     for(int gridX = 0; gridX < w; gridX++){
       for(int gridY = 0; gridY < h; gridY++){
