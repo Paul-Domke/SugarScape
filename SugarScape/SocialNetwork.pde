@@ -31,17 +31,10 @@ class SocialNetwork{
     //Returns true if agent x is adjacent to agent y in this SocialNetwork. If either x or y is not present in the social network, should return null.
     for(int i = 0; i < adj.length; i++){
       LinkedList<SocialNetworkNode> socialNetwork = adj[i];
-<<<<<<< HEAD
-      if(socialNetwork.peek().getAgent() == x.getAgent()){
-        for(int j = 0; j < socialNetwork.size(); j++){
-          SocialNetworkNode currentNode = socialNetwork.get(j);
-          if(y == currentNode){
-=======
       if(socialNetwork.peek() == x){
         for(int j = 0; j < socialNetwork.size(); j++){
           SocialNetworkNode currentNode = socialNetwork.get(j);
           if(currentNode == y){
->>>>>>> 4fa460f94b2c9a8ac61af5fbf1a2ec69c195eeaa
             return true;
           }
         }
@@ -109,7 +102,6 @@ class SocialNetwork{
   
   public boolean pathExists(Agent x, Agent y){
     //Returns true if there exists any path through the social network that connects x to y. A path should start with node x,
-<<<<<<< HEAD
     //proceed through any node x can see, and then any node that agent can see, and so on, until it reaches node y. 
     for(int i = 0; i < adj.length; i++){
       LinkedList<SocialNetworkNode> q = new LinkedList<SocialNetworkNode>();
@@ -139,12 +131,6 @@ class SocialNetwork{
           }
         }
       }
-=======
-    //proceed through any node x can see, and then any node that agent can see, and so on, until it reaches node y.
-    for(int i = 0; i < adj.length; i++){
-      LinkedList<SocialNetworkNode> socialNetwork = adj[i];
-      
->>>>>>> 4fa460f94b2c9a8ac61af5fbf1a2ec69c195eeaa
     }
     return false;
   }
