@@ -1,10 +1,10 @@
 class Graph{
-  int x;
-  int y;
-  int howWide;
-  int howTall;
-  String xlab;
-  String ylab;
+  protected int x;
+  protected int y;
+  protected int howWide;
+  protected int howTall;
+  private String xlab;
+  private String ylab;
   
   public Graph(int x, int y, int howWide, int howTall, String xlab, String ylab){
     this.x = x;
@@ -16,24 +16,27 @@ class Graph{
   }
   
   public void update(SugarGrid g){
+    noStroke();
     fill(255);
-    stroke(255);
-    rect(x,y,howWide,howTall);
-    fill(0);
+    rect(x, y, howWide, howTall);
     stroke(0);
-    line(x, y + howTall, x + howWide, y + howTall);
-    line(x, y, x, y + howTall);
-    text(xlab, x + (howWide/2), y + (howTall + 20));
+    strokeWeight(1);
+    line(x, y+howTall, x+howWide, y+howTall);
+    line(x, y, x, y+howTall);
+    writeRotatedText(xlab, x+howWide, y+howTall+15, 0);
+    writeRotatedText(ylab, x-5, y, -PI/2.0);
+  }
+  
+  private void writeRotatedText(String s, int i, int j, float angle){
     pushMatrix();
-    translate(x, y);
-    rotate(-PI/2.0);
-    text(ylab, -howTall/2, -20 );
+    translate(i, j);
+    rotate(angle);
+    text(s, -s.length()*8, 0 );
     popMatrix();
   }
 }
 
 abstract class LineGraph extends Graph{
-  
   int numberOfUpdates;
   
   public LineGraph(int x, int y, int howWide, int howTall, String xlab, String ylab){

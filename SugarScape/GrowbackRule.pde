@@ -1,7 +1,5 @@
 interface GrowthRule{
-  
   public void growBack(Square s);
-  
 }
 
 class GrowBackRule implements GrowthRule{
@@ -12,15 +10,7 @@ class GrowBackRule implements GrowthRule{
   }
   
   public void growBack(Square s){
-    int maxSugar = s.getMaxSugar();
-    int currentSugar = s.getSugar();
-    int newSugarLevel = currentSugar + rate;
-    if(newSugarLevel > maxSugar){
-      s.setSugar(maxSugar);
-    }
-    else{
-      s.setSugar(newSugarLevel);
-    }
+    s.setSugar(s.getSugar() + rate);
   }
 }
 
@@ -43,66 +33,17 @@ class SeasonalGrowbackRule implements GrowthRule{
     dayCounter = 0;
   }
   
-  public void growBack(Square s){
+  public void growBack(Square s) {
+    if ( (s.getY() <= equator && northSummer) || (s.getY() > equator && !northSummer)) {
+      s.setSugar(s.getSugar() + alpha);
+    }
+    else {
+      s.setSugar(s.getSugar() + beta);      
+    }
     
-    int sqY = s.getY();
-    if(sqY >= equator && northSummer == false){
-      //South during its summer
-      int maxSugar = s.getMaxSugar();
-      int currentSugar = s.getSugar();
-      int alphaSug = currentSugar + alpha;
-      if(alphaSug > maxSugar){
-        s.setSugar(maxSugar);
-      }
-      else{
-        s.setSugar(alphaSug);
-      }
-    }
-    if(sqY <= equator && northSummer == true){
-      //North during its summer
-      int maxSugar = s.getMaxSugar();
-      int currentSugar = s.getSugar();
-      int alphaSug = currentSugar + alpha;
-      if(alphaSug > maxSugar){
-        s.setSugar(maxSugar);
-      }
-      else{
-        s.setSugar(alphaSug);
-      }
-    }
-    if(sqY >= equator && northSummer == true){
-      //South not during summer
-      int maxSugar = s.getMaxSugar();
-      int currentSugar = s.getSugar();
-      int betaSug = currentSugar + beta;
-      if(betaSug > maxSugar){
-        s.setSugar(maxSugar);
-      }
-      else{
-        s.setSugar(betaSug);
-      }
-    }
-    if(sqY <= equator && northSummer == false){
-      //North not duting summer
-      int maxSugar = s.getMaxSugar();
-      int currentSugar = s.getSugar();
-      int betaSug = currentSugar + beta;
-      if(betaSug > maxSugar){
-        s.setSugar(maxSugar);
-      }
-      else{
-        s.setSugar(betaSug);
-      }
-    }
-    int eq = gamma * numSquares;
-    dayCounter++;
-    if(eq == dayCounter){
-      if(northSummer){
-        northSummer = false;
-      }
-      else{
-        northSummer = true;
-      }
+    dayCounter += 1;
+    if (dayCounter >= gamma*numSquares) {
+      northSummer = !northSummer;
       dayCounter = 0;
     }
   }

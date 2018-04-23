@@ -8,8 +8,6 @@ class SugarGrid{
   private Square[][] grid;
   private ArrayList<Agent> listOfAgents;
 
-  
-  //Constructor checks out
   public SugarGrid(int w, int h, int sideLength, GrowthRule g){
     this.w = w;
     this.h = h;
@@ -28,7 +26,6 @@ class SugarGrid{
     
   }
   
-  //Pretty sure all accessor methods work
   public int getWidth(){
     return w;
   }
@@ -93,7 +90,6 @@ class SugarGrid{
   
   public void addSugarBlob(int x, int y, int radius, int max){
     Square sugarBlobCenter = grid[x][y];
-    //this starts with the center circle to make sure it is full.
     if(sugarBlobCenter.getMaxSugar() <= max){
       sugarBlobCenter.setMaxSugar(max);
       sugarBlobCenter.setSugar(max);
@@ -101,7 +97,6 @@ class SugarGrid{
     else{
       sugarBlobCenter.setSugar(sugarBlobCenter.getMaxSugar());
     }
-    //This starts on the surrounding squares
     for(int count = 1; count <= max(w,h); count++){
       for(int xAs = 0; xAs < w; xAs++){
         for(int yAx = 0; yAx < h; yAx++){
@@ -128,16 +123,12 @@ class SugarGrid{
         if(euclidianDistance(grid[x][y], current) <= radius){
           if(x == current.getX() || y == current.getY()){
             finalList.add(current);
-            //println("Pos of squares in generate vision: " + current.getX(), current.getY());
           }
         }
       }
     }
-    //println("Size of vison: " + finalList.size());
     return finalList;
   }
-  
-  
   
   public void update(){
     ArrayList<Agent> lastAgent = new ArrayList<Agent>();
@@ -152,7 +143,6 @@ class SugarGrid{
           MovementRule move = currentAgent.getMovementRule();
           while(sight.size() != 0){
             dest = move.move(sight, this, grid[(w - 1)/2][(h - 1)/2]);
-            //If dest is empty you can move, if dest is current you can move
             if(dest.getAgent() == null){
               currentAgent.move(current, dest);
               break;

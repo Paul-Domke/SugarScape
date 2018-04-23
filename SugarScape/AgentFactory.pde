@@ -1,3 +1,4 @@
+import java.util.Random;
 
 class AgentFactory{
   int minMetabolism;
@@ -20,9 +21,10 @@ class AgentFactory{
   }
   
   public Agent makeAgent(){
-    int randMetabolism = (int)random(minMetabolism, maxMetabolism + 1);
-    int randVision = (int)random(minVision, maxVision + 1);
-    int randInitalSugar = (int)random(minInitialSugar, maxInitialSugar + 1);
+    Random r = new Random();
+    int randMetabolism = minMetabolism + r.nextInt(maxMetabolism + 1 - minMetabolism);
+    int randVision = minVision + r.nextInt(maxVision + 1 - minVision);
+    int randInitalSugar = minInitialSugar + r.nextInt(maxInitialSugar + 1 - minInitialSugar);
     return new Agent(randMetabolism, randVision, randInitalSugar, m);
   }
 }

@@ -8,62 +8,45 @@ interface MovementRule{
 class SugarSeekingMovementRule implements MovementRule{
   
   public Square move(LinkedList<Square> neighbourhood, SugarGrid g, Square middle){
-   
+    Square max = neighbourhood.peek();
     Collections.shuffle(neighbourhood);
-    int max = 0;
-    Square maxNode = neighbourhood.get(0);
-    
-    for(int i = 0; i < neighbourhood.size(); i++){
-      Square myNode = neighbourhood.get(i);
-      if(myNode.getSugar() > max){
-        max = myNode.getSugar();
-        maxNode = myNode;        
-      }
-      if(myNode.getSugar() == max){
-        if(g.euclidianDistance(middle, maxNode) > g.euclidianDistance(middle, myNode)){
-          maxNode = myNode;
-        }
-      }
+    for (Square s : neighbourhood) {
+      if (s.getSugar() > max.getSugar() ||
+          (s.getSugar() == max.getSugar() && 
+           g.euclidianDistance(s, middle) < g.euclidianDistance(max, middle)
+          )
+         ) {
+        max = s;
+      } 
     }
-    return maxNode;
+    return max;
   }
 }
 
 class PollutionMovementRule implements MovementRule{
     
     public Square move(LinkedList<Square> neighbourhood, SugarGrid g, Square middle){
-    
+    Square maxNode = neighbourhood.peek();
     Collections.shuffle(neighbourhood);
-    Square maxNode = neighbourhood.get(0);
-    double maxRatio = 0;
-    double ratio = 0;
-    for(int i = 0; i < neighbourhood.size(); i++){
-      Square myNode = neighbourhood.get(i);
-      if(myNode.getPollution() == 0){
-        ratio = 0;
-      }
-      else{
-        ratio = myNode.getSugar()/myNode.getPollution();
-      }
-      if(ratio > maxRatio){
-        maxRatio = myNode.getSugar();
-        maxNode = myNode;        
-      }
-      if(ratio == maxRatio){
-        if(g.euclidianDistance(middle, maxNode) > g.euclidianDistance(middle, myNode)){
-          maxNode = myNode;
+    boolean bestSquareHasNoPollution = (maxNode.getPollution() == 0);
+    for (Square s : neighbourhood) {
+      boolean newSquareCloser = (g.euclidianDistance(s, middle) < g.euclidianDistance(maxNode, middle));
+      if (s.getPollution() == 0) {
+        if (!bestSquareHasNoPollution || s.getSugar() > maxNode.getSugar() ||
+            (s.getSugar() == maxNode.getSugar() && newSquareCloser)
+           ) {
+          maxNode = s;
         }
       }
-      if(myNode.getPollution() == 0 && maxNode.getPollution() >= 0){
-        if(myNode.getPollution() == 0 && maxNode.getPollution() == 0){
-          if(g.euclidianDistance(middle, maxNode) > g.euclidianDistance(middle, myNode)){
-            maxNode = myNode;
-          }
+      else if (!bestSquareHasNoPollution) { 
+        float newRatio = s.getSugar()*1.0/s.getPollution();
+        float curRatio = maxNode.getSugar()*1.0/maxNode.getPollution();
+        if (newRatio > curRatio || (newRatio == curRatio && newSquareCloser)) {
+          maxNode = s;
         }
-        maxNode = myNode;
       }
     }
-   return maxNode;
+    return maxNode;
   }
 }
 

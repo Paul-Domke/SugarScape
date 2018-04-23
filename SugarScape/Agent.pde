@@ -1,5 +1,3 @@
-
-
 class Agent{
   private int metabolism;
   private int vision;
@@ -43,6 +41,30 @@ class Agent{
     this.sex = sex;
   }
   
+  public int getAge(){
+    return age;
+  }
+  
+  public int getMetabolism(){
+    return metabolism;
+  }
+  
+  public int getVision(){
+    return vision;
+  }
+  
+  public int getSugarLevel(){
+    return sugarLevel;
+  }
+  
+  public MovementRule getMovementRule(){
+    return m;
+  }
+  
+  public char getSex(){
+    return sex;
+  }
+  
   public void influence(Agent other){
     int rand = (int)random(0, 11);
     if(culture[rand] != other.culture[rand]){
@@ -82,10 +104,6 @@ class Agent{
     return false;
   }
   
-  public char getSex(){
-    return sex;
-  }
-  
   public void gift(Agent other, int amount){
     if(amount > sugarLevel){
       assert(false);
@@ -94,30 +112,8 @@ class Agent{
     other.sugarLevel += amount;
   }
   
-  public int getAge(){
-    return age;
-  }
-  
-  public int getMetabolism(){
-    return metabolism;
-  }
-  
-  public int getVision(){
-    return vision;
-  }
-  
-  public int getSugarLevel(){
-    return sugarLevel;
-  }
-  
-  public MovementRule getMovementRule(){
-    return m;
-  }
-  
   public void setAge(int howOld){
-    if(howOld < 0){
-      assert(false);
-    }
+    assert(howOld >= 0);
     age = howOld;
   }
   
@@ -130,6 +126,7 @@ class Agent{
       assert(false);
     }
   }
+  
   public void step(){
     age++;
     sugarLevel -= metabolism;
@@ -137,16 +134,23 @@ class Agent{
       sugarLevel = 0;
     }
   }
+  
   public boolean isAlive(){
     if(sugarLevel > 0){
       return true;
     }
     return false;
   }
+  
   public void eat(Square s){
     sugarLevel += s.getSugar();
     s.setSugar(0);
   }
+  
+  public boolean equals(Agent other) {
+    return this == other;
+  }
+  
   public void display(int x, int y, int scale){
     fill(0);
     ellipse(x,y,3*scale/4,3*scale/4);
