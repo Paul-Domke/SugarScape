@@ -1,3 +1,4 @@
+
 import java.util.List;
 
 class ReplacementRule{
@@ -10,6 +11,7 @@ class ReplacementRule{
     this.minAge = minAge;
     this.maxAge = maxAge;
     this.fac = fac;
+    this.listOfAgentAge = new HashMap<Agent, Integer>();
   }
   
   public boolean replaceThisOne(Agent a){

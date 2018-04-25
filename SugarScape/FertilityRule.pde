@@ -10,6 +10,9 @@ class FertilityRule{
   public FertilityRule(Map<Character, Integer[]> childbearingOnset, Map<Character,Integer[]> climactericOnset){
     this.childbearingOnset = childbearingOnset;
     this.climactericOnset = climactericOnset;
+    initalSugar = new HashMap<Agent, Integer>();
+    agentC = new HashMap<Agent, Integer>();
+    agentO = new HashMap<Agent, Integer>();
   }
   
   public boolean isFertile(Agent a){
@@ -25,7 +28,7 @@ class FertilityRule{
       agentC.put(a, c);
       float randO = random(0, climactericOnset.get(a.getSex()).length);
       Integer o = (int)randO;
-      agentC.put(a, o);
+      agentO.put(a, o);
       initalSugar.put(a, a.getSugarLevel());
     }
     if(agentC.get(a) <= a.getAge() && a.getAge() < agentO.get(a) && a.getSugarLevel() > initalSugar.get(a)){

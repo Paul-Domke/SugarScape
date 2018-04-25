@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Map;
 
 class SugarGrid{
   private int w;
@@ -7,6 +8,31 @@ class SugarGrid{
   private GrowthRule g;
   private Square[][] grid;
   private ArrayList<Agent> listOfAgents;
+  
+  Integer xEarlyChildbearingStartAge = 12;
+  Integer xLateChildbearingAge = 15;
+  
+  Integer xEarlyClimactericStartAge = 50;
+  Integer xLateClimactericStartAge = 60;
+  
+  Integer yEarlyChildbearingStartAge = 12;
+  Integer yLateChildbearingAge = 15;
+  
+  Integer yEarlyClimactericStartAge = 40;
+  Integer yLateClimactericStartAge = 50;
+  
+  int numOfAgents = 400;
+  int minMetabolism = 1;
+  int maxMetabolism = 4;
+  int minVision = 1;
+  int maxVision = 6;
+  int minInitialSugar = 50;
+  int maxInitialSugar = 100;
+  
+  private FertilityRule fr;
+  private ReplacementRule rr;
+  
+  AgentFactory af;
 
   public SugarGrid(int w, int h, int sideLength, GrowthRule g){
     this.w = w;
@@ -20,6 +46,15 @@ class SugarGrid{
         grid[wid][hei] = new Square(0, 0, wid, hei);
       }
     }
+    Map<Character, Integer[]> childbearingOnset = new HashMap<Character, Integer[]>();
+    childbearingOnset.put('X', new Integer[]{xEarlyChildbearingStartAge, xLateChildbearingAge});
+    childbearingOnset.put('Y', new Integer[]{yEarlyChildbearingStartAge, yLateChildbearingAge});
+    Map<Character,Integer[]> climactericOnset = new HashMap<Character, Integer[]>();
+    climactericOnset.put('X', new Integer[]{xEarlyClimactericStartAge, xLateClimactericStartAge});
+    climactericOnset.put('Y', new Integer[]{yEarlyClimactericStartAge, yLateClimactericStartAge});
+    fr = new FertilityRule(childbearingOnset, climactericOnset);
+    af = new AgentFactory(minMetabolism, maxMetabolism, minVision, maxVision, minInitialSugar, maxInitialSugar, new SugarSeekingMovementRule());
+    rr = new ReplacementRule(0, 100, af);
   }
   
   public void killAgent(Agent a){
@@ -141,6 +176,16 @@ class SugarGrid{
           LinkedList<Square> sight = generateVision(current.getX(), current.getY(), currentAgent.getVision());
           Square dest = null;
           MovementRule move = currentAgent.getMovementRule();
+          if(rr.replaceThisOne(currentAgent)){
+            rr.replace(currentAgent, listOfAgents);
+          }
+          for(Square s : sight){
+            if(s.getAgent() != null){
+              if(fr.canBreed(currentAgent, s.getAgent(), sight) == true){
+                fr.breed(currentAgent, s.getAgent(), sight, generateVision(s.getX(), s.getY(), s.getAgent().getVision()));
+              }
+            }
+          }
           while(sight.size() != 0){
             dest = move.move(sight, this, grid[(w - 1)/2][(h - 1)/2]);
             if(dest.getAgent() == null){

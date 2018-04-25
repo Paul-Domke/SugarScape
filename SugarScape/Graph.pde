@@ -70,7 +70,7 @@ class NumberOfAgentsGraph extends LineGraph{
   }
   
   public int nextPoint(SugarGrid g){
-    return -g.getAgents().size();
+    return -g.getAgents().size()/10;
   }
 }
 

@@ -15,15 +15,17 @@ class Agent{
     this.m = m;
     this.sugarLevel += this.initialSugar;
     this.age = 0;
-    if(sex != 'X' || sex != 'Y'){
-      assert(false);
-    }
-    float randNum = random(0, 2);
+    int randNum = (int)random(0, 2);
     if(randNum == 0){
       this.sex = 'X';
     }
     if(randNum == 1){
       this.sex = 'Y';
+    }
+    if(sex == 'X' || sex == 'Y'){
+    }
+    else{
+      assert(false);
     }
     culture = new boolean[11];
   }
@@ -39,6 +41,14 @@ class Agent{
       assert(false);
     }
     this.sex = sex;
+  }
+  
+  public void addSugar(int amount){
+    sugarLevel += amount;
+  }
+
+  public void setSugar()(int amount){
+    sugarLevel = 0;
   }
   
   public int getAge(){
